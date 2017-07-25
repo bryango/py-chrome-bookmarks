@@ -10,6 +10,7 @@
 
 from __future__ import print_function
 import argparse
+from datetime import datetime
 from json import loads
 from os import environ
 from os.path import expanduser
@@ -17,7 +18,7 @@ from platform import system
 from re import match
 from sys import argv, stderr
 
-script_version = "1.2.1"
+script_version = "1.2.1b"
 
 # html escaping code from http://wiki.python.org/moin/EscapingHtml
 
@@ -29,18 +30,19 @@ html_escape_table = {
 	"<": "&lt;",
 	}
 
+output_timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M')
 output_file_template = """<!DOCTYPE NETSCAPE-Bookmark-file-1>
 
 <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
 <title>Bookmarks</title>
-<h1>Bookmarks</h1>
+<h1>Bookmarks_%s</h1>
 
 <dl><p>
 
 <dl>{bookmark_bar}</dl>
 
 <dl>{other}</dl>
-"""
+""" % output_timestamp
 
 def html_escape(text):
 	return ''.join(html_escape_table.get(c,c) for c in text)
